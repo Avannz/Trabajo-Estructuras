@@ -13,6 +13,8 @@ stAlumno cargarAlumno();
 int alumnoArreglo(stAlumno alumno[], int dim);
 int busquedaAlumno(stAlumno alumno[], int busqueda, int validos);
 int busqueda(stAlumno alumno[],int posBusqueda,int validos);
+void ordenarAlumnosNombre(stAlumno alumno[], int validos);
+void insertarAlumnoNombre (stAlumno alumno[], int posBusqueda, stAlumno dato);
 void insertarAlumno (stAlumno alumno[], int *validos);
 void ordenarAlumnos(stAlumno alumno[], int validos);
 void mostrarAlumnos(stAlumno alumno[], int validos);
@@ -31,17 +33,18 @@ int main()
     mostrarAlumnos(nuevoAlumno, validos);
 
     printf("\n\nAlumnos:\n");
-    ordenarAlumnos(nuevoAlumno, validos);
+    ordenarAlumnosNombre(nuevoAlumno, validos);
     printf("\n\nAlumnos Ordenados:\n");
     mostrarAlumnos(nuevoAlumno, validos);
-    insertarAlumno(nuevoAlumno, &validos);
-    mostrarAlumnos(nuevoAlumno, validos);
+//    insertarAlumno(nuevoAlumno, &validos);
+//    mostrarAlumnos(nuevoAlumno, validos);
+//
+//    printf("Ingrese el genero que quiere mostrar");
+//    fflush(stdin);
+//    scanf("%c", &genero);
+//
+//    mostrarGenero(nuevoAlumno, genero, validos);
 
-    printf("Ingrese el genero que quiere mostrar");
-    fflush(stdin);
-    scanf("%c", &genero);
-
-    mostrarGenero(nuevoAlumno, genero, validos);
 }
 
 stAlumno cargarAlumno()
@@ -180,7 +183,7 @@ void mostrarGenero (stAlumno alumno[], char genero, int validos)
     }
 }
 
-void insertarAlumno (stAlumno alumno[], int *validos){
+void insertarAlumnoMatricula (stAlumno alumno[], int *validos){
     int dim = *validos+1;
     stAlumno aux = cargarAlumno();
     int i = *validos;
@@ -192,4 +195,24 @@ void insertarAlumno (stAlumno alumno[], int *validos){
     i--;
     }
     *validos = dim;
+}
+
+void insertarAlumnoNombre (stAlumno alumno[], int posBusqueda, stAlumno dato)
+{
+    int i = posBusqueda;
+
+
+    while(i>=0 && strcmp(dato.nombre,alumno[i].nombre) == -1){
+        alumno[i+1]=alumno[i];
+        i--;
+    }
+    alumno[i+1]=dato;
+}
+
+void ordenarAlumnosNombre(stAlumno alumno[], int validos){
+    int i = 0;
+    while(i<validos-1){
+        insertarAlumnoNombre(alumno,i,alumno[i+1]);
+        i++;
+    }
 }
